@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Add list sederhana</title>
+</head>
+<body>
+  <main class="app">
+    <h1>Tambah List</h1>
+
+    <div class="row">
+      <input type="text" id="input" placeholder="Ketik Item">
+      <input id="addBtn" type="button" value="Tambah ke List">
+    </div>
+
+    <div id="content">
+      <ul id="list"></ul>
+    </div>
+  </main>
+
+  <script>
+  const input = document.getElementById("input"); // ganti dari 'teks' ke 'input'
+  const button = document.getElementById("addBtn");
+  const list = document.getElementById("list");
+
+  let itemEdit = null;
+
+  button.addEventListener("click", function () {
+    const teksv = input.value.trim();
+
+    if (teksv === "") {
+      alert("gabole kosong woy!");
+      return;
+    }
+
+    if (itemEdit) {
+      const span = itemEdit.querySelector("span");
+      span.textContent = teksv;
+      itemEdit = null;
+      button.style.backgroundColor = "";
+      button.style.color = "";
+      button.value = "Tambah ke List";
+    } else {
+      const li = document.createElement("li");
+      const spanText = document.createElement("span");
+      spanText.textContent = teksv;
+
+      const btnEdit = document.createElement("button");
+      btnEdit.classList.add("btnEdit");
+      btnEdit.textContent = "Edit";
+      btnEdit.addEventListener("click", function () {
+        input.value = spanText.textContent;
+        button.value = "UPDATE LIST";
+        button.style.backgroundColor = "yellow";
+        button.style.color = "black";
+        itemEdit = li;
+      });
+
+      const btnDelete = document.createElement("button");
+      btnDelete.textContent = "Delete";
+      btnDelete.addEventListener("click", function () {
+        list.removeChild(li);
+      });
+
+      li.appendChild(spanText);
+      li.appendChild(btnEdit);
+      li.appendChild(btnDelete);
+
+      list.appendChild(li);
+      input.value = "";
+    }
+  });
+  </script>
+</body>
+</html>
